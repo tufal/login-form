@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .dashboard-box {
+      background-color: #ffffff;
+      color: #333;
+      padding: 30px;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .btn-custom {
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    #storageData {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+      font-size: 0.95rem;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-box text-center">
+    <h1>👋 Welcome <span id="userName"></span>!</h1>
+
+    <button class="btn btn-danger btn-custom" onclick="logout()">🚪 Logout</button>
+    <button class="btn btn-info btn-custom" onclick="showStorage()">🧾 Show LocalStorage Data</button>
+
+    <div id="storageData" class="text-start mt-3"></div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!user) {
+      alert("Please login first");
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("userName").innerText = user.name;
+    }
+
+    function logout() {
+      localStorage.removeItem("currentUser");
+      window.location.href = "login.html";
+    }
+
+    function showStorage() {
+      const users = localStorage.getItem("users");
+      const currentUser = localStorage.getItem("currentUser");
+      const token = localStorage.getItem("loginToken");
+
+      const output = `
+🧑‍🤝‍🧑 Users:\n${users || "No users found"}
+
+👤 Current User:\n${currentUser || "No user logged in"}
+
+🔐 Login Token:\n${token || "No token found"}
+`;
+
+      document.getElementById("storageData").textContent = output;
+    }
+  </script>
+</body>
+</html>
